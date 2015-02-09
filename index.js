@@ -7,7 +7,7 @@
  *     --file The filename of a text file to search (default: input.txt)
  */
 
-console.time('start');
+console.time('Processed in');
 var fs = require('fs');
 var path = require('path');
 
@@ -20,13 +20,15 @@ var selectedWords = []; // Word(s) with the highest score
 var processedWords = {}; // Checklist for processed words
 
 var printResult = function (wordObjects) {
-    var highestScore = wordObjects.length ? wordObjects[0].points : 0;
-    console.log('Word(s) with the highest score', '(' +highestScore+ '):');
+
+    if (!wordObjects) return console.log('Nothing to print.');
+
+    console.log('Word(s) with the highest score', '(' +wordObjects[0].points+ '):');
     wordObjects.forEach(function (wordObject) {
         console.log('>', wordObject.word.replace(/[^åäö\-\w]/gi, ''));
     });
-    console.log(require('util').inspect(process.memoryUsage()));
-    console.timeEnd('start');
+    console.log('Heap used:', require('util').inspect(process.memoryUsage().heapUsed), 'bytes');
+    console.timeEnd('Processed in');
 };
 
 // Split text into an array of words
@@ -60,7 +62,8 @@ text.split(/\s/)
     .sort(function (a, b) {
         return b.points - a.points;
     })
-    // Starting from the word with the most points return & print out the results when a word with less points is reached
+    // Keeping pushing the word(s) with the most points to selectedWords until a word with less points is reached.
+    // Before breaking out of the loop print selectedWords to stdout
     .every(function (word, index, words) {
         return (word.points === words[0].points) ? selectedWords.push(word) : printResult(selectedWords);
     });

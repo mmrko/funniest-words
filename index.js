@@ -25,14 +25,16 @@ var printResult = function (wordObjects) {
 
     console.log('Word(s) with the highest score', '(' +wordObjects[0].points+ '):');
     wordObjects.forEach(function (wordObject) {
-        console.log('>', wordObject.word.replace(/[^åäö\-\w]/gi, ''));
+        console.log('>', wordObject.word);
     });
     console.log('Heap used:', require('util').inspect(process.memoryUsage().heapUsed), 'bytes');
     console.timeEnd('Processed in');
 };
 
-// Split text into an array of words
-text.split(/\s/)
+// Strip all special characters except spaces, dashes & Finnish umlauts
+text.replace(/[^\w\s\-åäö]/gi, '')
+    // Split the text into an array of words
+    .split(/\s+/)
     // Filter out duplicates
     .filter(function (word) {
         return processedWords[word] ? false : processedWords[word] = true;

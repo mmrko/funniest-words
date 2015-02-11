@@ -1,11 +1,12 @@
+#!/usr/bin/env node
+
 /**
- * http://wunderdog.fi/koodaus-hassuimmat-sanat
- *
- * Marko Raatikka // marko.raatikka@gmail.com
- *
- * Parameters:
- *     --file The filename of a text file to search (default: input.txt)
- */
+  * http://wunderdog.fi/koodaus-hassuimmat-sanat
+  * Marko Raatikka // marko.raatikka@gmail.com
+  *
+  * Parameters:
+  *     --file The filename of a text file to search (default: input.txt)
+  */
 
 console.time('Processed in');
 var fs = require('fs');

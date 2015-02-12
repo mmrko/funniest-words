@@ -7,5 +7,5 @@ The input file filepath can be customised with the `--file` parameter (defaults 
 Usage:
 
 ```bash
-node funnyWords.js --file my_file.txt
+./funnyWords.js --file my_file.txt
 ```

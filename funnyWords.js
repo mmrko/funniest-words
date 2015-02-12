@@ -13,12 +13,20 @@ var fs = require('fs');
 var path = require('path');
 
 var VOWELS = [ 'a', 'e', 'i', 'u', 'o', 'y', 'ä', 'ö' ];
-var txtFile = process.argv[2] === 'file' && process.argv[3] ? process.argv[3] : 'input.txt';
-var text = fs.readFileSync(path.join(__dirname, txtFile), { encoding: 'utf8' });
+var txtFile = process.argv[2] === '--file' && process.argv[3] ? process.argv[3] : 'input.txt';
 var expression = [ '[^', VOWELS.join(''), ']' ].join('');
 var regex = new RegExp(expression, 'gi');
 var selectedWords = []; // Word(s) with the highest score
 var processedWords = {}; // Checklist for processed words
+var text;
+
+try {
+    text = fs.readFileSync(path.join(__dirname, txtFile), { encoding: 'utf8' });
+}
+catch (e) {
+    if (e.code === 'ENOENT') return console.error('No such file:', process.argv[3]);
+    console.error(e);
+}
 
 var printResult = function (wordObjects) {
 

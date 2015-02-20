@@ -40,6 +40,12 @@ var printResult = function (wordObjects) {
     console.timeEnd('Processed in');
 };
 
+var countPoints = function (vowels) {
+    if (!vowels) { return 0; }
+    var numberOfVowels = vowels.length;
+    return numberOfVowels * Math.pow(2, numberOfVowels);
+};
+
 // Strip all special characters except spaces, dashes & Finnish umlauts
 text.replace(/[^\w\s\-åäö]/gi, '')
     // Split the text into an array of words
@@ -51,17 +57,11 @@ text.replace(/[^\w\s\-åäö]/gi, '')
     // Score each word
     .map(function (word) {
 
-        var numberOfVowels;
-
         // Strip out dashes & split the vowel sequences into an array
         var vowelGroups = word.replace('-', '').split(regex);
 
         // Evaluate each sequence of vowels
-        var points = vowelGroups.map(function (vowels) {
-            if (!vowels) { return 0; }
-            numberOfVowels = vowels.length;
-            return numberOfVowels * Math.pow(2, numberOfVowels);
-        }).reduce(function (a, b) {
+        var points = vowelGroups.map(countPoints).reduce(function (a, b) {
             return a + b;
         });
 
